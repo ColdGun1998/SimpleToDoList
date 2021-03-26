@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- 
+    1.html结构、css样式
+    2.v-for 显示todolist
+    3.v-if 没有数据时，显示提示
+    4.v-model 添加item
+    5.删除
+    6.search 按条件删选
+
+ -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SimpleToDoList</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
+        #app {
+            width: 500px;
+            height: 600px;
+            margin: 20px auto;
+            border: solid 2px #dbdbdb;
+            border-radius: 4px;
+
+        }
+
+        .header {
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .main {
+            width: 50%;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
@@ -29,7 +61,10 @@
 
             <!-- 过滤器 -->
             <div class="filter">
-
+                <button class="allFilter">全部</button>
+                <button class="completedFilter">已完成</button>
+                <button class="unfinishedFilter">未完成</button>
+                <button class="clearBtn">清除已完成</button>
             </div>
 
             <!-- 代办事项 -->
