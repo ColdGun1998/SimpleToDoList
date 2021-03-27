@@ -22,7 +22,7 @@
         }
 
         #app {
-            width: 500px;
+            width: 450px;
             height: 600px;
             margin: 20px auto;
             border: solid 2px #dbdbdb;
@@ -36,8 +36,21 @@
         }
 
         .main {
-            width: 50%;
+            width: 90%;
             margin: 0 auto;
+            border: solid 1px black;
+        }
+
+        .todoInput {
+            width: 80%;
+        }
+
+        .filter {
+            margin: 5px auto;
+        }
+
+        .todoList {
+            margin: 5px auto;
         }
     </style>
 </head>
@@ -52,10 +65,10 @@
         <!-- 主要部分 -->
         <div class="main">
             <!-- 输入框 -->
-            <div class="input">
-                <form action="">
-                    <input type="text" class="todoInput">
-                    <button type="submit" class="addBtn">添加</button>
+            <div class="todoInput">
+                <form action="" @submit.prevent="addToDo">
+                    <input type="text" class="todoInput" v-model="inputText.content">
+                    <button class="addBtn" type="submit">添加</button>
                 </form>
             </div>
 
@@ -69,11 +82,14 @@
 
             <!-- 代办事项 -->
             <div class="todoList">
-                <div class="todoItem">
-                    <button class="completeBtn"></button>
-                    待办事项
-                    <button class="modifyBtn"></button>
-                    <button class="deleteBtn"></button>
+                <div class="todoTips" v-show="todoList.length == 0">加入一个待办事项吧</div>
+                <div class="todoItem" v-for="item in todoList">
+                    <button class="completeBtn">完成</button>
+                    {{item.time}}
+                    {{item.content}}
+                    {{item.detail}}
+                    <button class="modifyBtn">修改</button>
+                    <button class="deleteBtn">删除</button>
                 </div>
             </div>
 
