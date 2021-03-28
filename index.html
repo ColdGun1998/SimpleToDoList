@@ -16,10 +16,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SimpleToDoList</title>
     <style>
+        html,
         body {
             margin: 0;
             padding: 0;
         }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
 
         #app {
             width: 450px;
@@ -52,6 +64,30 @@
         .todoList {
             margin: 5px auto;
         }
+
+        .filters {
+            position: relative;
+        }
+
+        .filters li {
+            display: inline;
+        }
+
+        .filters li a {
+            color: black;
+            margin: 3px;
+            padding: 2px 7px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+        }
+
+        .filters li a:hover {
+            border-color: rgba(83, 150, 238, 0.1);
+        }
+
+        .filters li a.selected {
+            border-color: rgba(83, 150, 238, 0.2);
+        }
     </style>
 </head>
 
@@ -73,23 +109,26 @@
             </div>
 
             <!-- 过滤器 -->
-            <div class="filter">
-                <button class="allFilter">全部</button>
-                <button class="completedFilter">已完成</button>
-                <button class="unfinishedFilter">未完成</button>
-                <button class="clearBtn">清除已完成</button>
-            </div>
+            <ul class="filters">
+                <li>
+                    <a href="#/all" :class="{selected:visibility =='all'}">全部</a>
+                </li>
+                <li>
+                    <a href="#/uncompleted" :class="{selected:visibility =='uncompleted'}">未完成</a>
+                </li>
+                <li>
+                    <a href="#/completed" :class="{selected:visibility =='completed'}">已完成</a>
+                </li>
+            </ul>
 
             <!-- 代办事项 -->
             <div class="todoList">
                 <div class="todoTips" v-show="todoList.length == 0">加入一个待办事项吧</div>
                 <div class="todoItem" v-for="item in todoList">
-                    <button class="completeBtn">完成</button>
-                    {{item.time}}
+                    <button class="completeBtn" @click="toggleComplete(item.id)">完成</button>
                     {{item.content}}
-                    {{item.detail}}
                     <button class="modifyBtn">修改</button>
-                    <button class="deleteBtn">删除</button>
+                    <button class="deleteBtn" v-on:click="deleteToDo(item.id)">删除</button>
                 </div>
             </div>
 
@@ -99,6 +138,7 @@
     </div>
 
     <script src="vue.js"></script>
+    <script src="myStorage.js"></script>
     <script src="main.js"></script>
 
 
