@@ -16,6 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SimpleToDoList</title>
     <style>
+        [v-cloak] {
+            display: none;
+        }
+
         html,
         body {
             margin: 0;
@@ -34,7 +38,7 @@
 
 
         #app {
-            width: 450px;
+            width: 800px;
             height: 600px;
             margin: 20px auto;
             border: solid 2px #dbdbdb;
@@ -99,14 +103,20 @@
         </div>
 
         <!-- 主要部分 -->
-        <div class="main">
+        <div class="main" v-cloak>
             <!-- 输入框 -->
             <div class="todoInput">
-                <form action="" @submit.prevent="addToDo">
-                    <input type="text" class="todoInput" v-model="inputText.content">
-                    <button class="addBtn" type="submit">添加</button>
-                </form>
+                <input class="todoInput" autofocus autocomplete="off" placeholder="What needs to be done?"
+                    @keyup.enter="addToDo" v-model="inputText.content">
+                <button class="detailBtn" @click="detailShow = !detailShow">详情</button>
+                <button class="addBtn" @click="addToDo">添加</button>
             </div>
+            <div class="detailIpt" v-if="detailShow">
+                <p><textarea rows="3" placeholder="详细信息" v-model="inputText.detail"></textarea></p>
+                <p class="datetime">提醒时间：<input type="datetime-local" v-model="inputText.datetime"></p>
+            </div>
+
+
 
             <!-- 过滤器 -->
             <ul class="filters">
@@ -124,11 +134,17 @@
             <!-- 代办事项 -->
             <div class="todoList">
                 <div class="todoTips" v-show="todoList.length == 0">加入一个待办事项吧</div>
-                <div class="todoItem" v-for="item in todoList">
+                <div class="todoItem" v-for="item in filteredList">
                     <button class="completeBtn" @click="toggleComplete(item.id)">完成</button>
-                    {{item.content}}
-                    <button class="modifyBtn">修改</button>
+                    <label>{{ item.content }}</label>
+                    <button class="modifyBtn" @click="item.detailShow = !item.detailShow">修改</button>
                     <button class="deleteBtn" v-on:click="deleteToDo(item.id)">删除</button>
+                    <div class="detailIpt" v-if="item.detailShow">
+                        <input class="editItem" v-model="item.content" />
+                        <p><textarea rows="3" placeholder="详细信息" v-model="item.detail"></textarea></p>
+                        <p class="datetime">提醒时间：<input type="datetime-local" v-model="item.datetime"></p>
+                    </div>
+
                 </div>
             </div>
 

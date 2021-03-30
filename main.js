@@ -6,17 +6,17 @@ function copy(obj) {
 };
 
 var filters = {
-    all: function (todos) {
-        return todos;
+    all: function (todoList) {
+        return todoList;
     },
-    uncompleted: function (todos) {
-        return todos.filter(function (todo) {
-            return !todo.completed;
+    uncompleted: function (todoList) {
+        return todoList.filter(function (item) {
+            return !item.completed;
         })
     },
-    completed: function (todos) {
-        return todos.filter(function (todo) {
-            return todo.completed;
+    completed: function (todoList) {
+        return todoList.filter(function (item) {
+            return item.completed;
         })
     }
 }
@@ -29,6 +29,7 @@ var app = new Vue({
         todoList: [],
         lastId: 0,
         visibility: "all",
+        detailShow: false
     },
     methods: {
         getId: function () {
@@ -51,10 +52,12 @@ var app = new Vue({
             let tempText = copy(this.inputText);
             tempText.id = this.getId();
             tempText.completed = false;
+            tempText.detailShow = false;
             //加入数据
             this.todoList.push(tempText);
             //清空数据
             this.resetInput();
+
         },
         deleteToDo: function (id) {
             var index = this.findById(id);
@@ -64,7 +67,6 @@ var app = new Vue({
             var index = this.findById(id);
             Vue.set(this.todoList[index], 'completed', !this.todoList[index].completed);
         },
-
     },
     mounted: function () {
         this.todoList = ms.get('todoList') || this.todoList;
@@ -79,7 +81,14 @@ var app = new Vue({
         }
     },
     computed: {
+        filteredList: function () {
+            return filters[this.visibility](this.todoList);
+        }
+    },
+    directives: {
+        "todo-focus": function () {
 
+        }
     }
 });
 
